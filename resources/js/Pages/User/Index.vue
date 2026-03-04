@@ -7,16 +7,20 @@
             <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
-            {{ $page.props.flash.success }}
+            {{ $page.props.flash?.success }}
         </div>
 
         <!-- Card -->
         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
 
             <!-- Table header -->
-            <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-                <p class="text-sm font-medium text-gray-700">All Users</p>
-                <Link v-if="$page.props.auth.user.role === 'admin'" :href="route('users.create')"
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4 border-b border-gray-100">
+                <div class="flex-1 max-w-xs">
+                    <input v-model="searchQuery" type="text" placeholder="Search users…"
+                        class="w-full border border-gray-300 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                        @keyup.enter="doSearch" />
+                </div>
+                <Link v-if="$page.props.auth?.user?.role === 'admin'" :href="route('users.create')"
                     class="inline-flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-800 transition">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -37,28 +41,30 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50 transition-colors">
+                        <tr v-for="user in users.data" :key="user.id" class="hover:bg-gray-50 transition-colors">
                             <td class="px-5 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                                        <span class="text-gray-600 text-xs font-semibold">{{ user.name.charAt(0).toUpperCase() }}</span>
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
                                     </div>
                                     <div>
-                                        <p class="font-medium text-gray-800">{{ user.name }}</p>
-                                        <p class="text-xs text-gray-400">{{ user.email }}</p>
+                                        <p class="font-medium text-gray-800">{{ user?.name }}</p>
+                                        <p class="text-xs text-gray-400">{{ user?.email }}</p>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-5 py-4">
-                                <span :class="roleBadge(user.role)"
+                                <span :class="roleBadge(user?.role)"
                                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">
-                                    {{ user.role }}
+                                    {{ user?.role }}
                                 </span>
                             </td>
-                            <td class="px-5 py-4 text-gray-400 text-xs">{{ formatDate(user.created_at) }}</td>
+                            <td class="px-5 py-4 text-gray-400 text-xs">{{ formatDate(user?.created_at) }}</td>
                             <td class="px-5 py-4 text-right space-x-3">
-                                <Link v-if="$page.props.auth.user.role === 'admin'"
-                                    :href="route('users.edit', user.id)"
+                                <Link v-if="$page.props.auth?.user?.role === 'admin'"
+                                    :href="route('users.edit', user?.id)"
                                     class="text-blue-600 hover:text-blue-800 text-xs font-medium">
                                     Edit
                                 </Link>
@@ -68,7 +74,7 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr v-if="users.length === 0">
+                        <tr v-if="users.data.length === 0">
                             <td colspan="4" class="px-5 py-12 text-center text-gray-400 text-sm">No users found.</td>
                         </tr>
                     </tbody>
@@ -77,25 +83,45 @@
 
             <!-- Mobile list -->
             <div class="md:hidden divide-y divide-gray-100">
-                <div v-if="users.length === 0" class="px-5 py-12 text-center text-gray-400 text-sm">No users found.</div>
-                <div v-for="user in users" :key="user.id" class="px-5 py-4 flex items-center gap-3">
+                <div v-if="users.data.length === 0" class="px-5 py-12 text-center text-gray-400 text-sm">No users found.</div>
+                <div v-for="user in users.data" :key="user.id" class="px-5 py-4 flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                        <span class="text-gray-600 text-sm font-semibold">{{ user.name.charAt(0).toUpperCase() }}</span>
+                        <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="font-medium text-gray-800 truncate">{{ user.name }}</p>
-                        <p class="text-xs text-gray-400 truncate">{{ user.email }}</p>
-                        <span :class="roleBadge(user.role)"
+                        <p class="font-medium text-gray-800 truncate">{{ user?.name }}</p>
+                        <p class="text-xs text-gray-400 truncate">{{ user?.email }}</p>
+                        <span :class="roleBadge(user?.role)"
                             class="inline-flex items-center mt-1 px-2 py-0.5 rounded-full text-xs font-medium capitalize">
-                            {{ user.role }}
+                            {{ user?.role }}
                         </span>
                     </div>
                     <div class="flex items-center gap-3 flex-shrink-0">
-                        <Link v-if="$page.props.auth.user.role === 'admin'"
-                            :href="route('users.edit', user.id)"
+                        <Link v-if="$page.props.auth?.user?.role === 'admin'"
+                            :href="route('users.edit', user?.id)"
                             class="text-blue-600 text-xs font-medium">Edit</Link>
                         <button @click="confirmDelete(user)" class="text-red-500 text-xs font-medium">Delete</button>
                     </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div v-if="users.meta.last_page > 1"
+                class="px-5 py-4 border-t border-gray-100 flex items-center justify-between text-sm">
+                <p class="text-gray-500 text-xs">
+                    Showing {{ users.meta.from }}–{{ users.meta.to }} of {{ users.meta.total }}
+                </p>
+                <div class="flex items-center gap-1">
+                    <Link v-for="link in users.meta.links" :key="link.label"
+                        :href="link.url ?? ''"
+                        v-html="link.label"
+                        :class="[
+                            'px-3 py-1 rounded-lg text-xs transition',
+                            link.active ? 'bg-green-700 text-white font-semibold' : 'text-gray-500 hover:bg-gray-100',
+                            !link.url ? 'opacity-40 pointer-events-none' : '',
+                        ]" />
                 </div>
             </div>
         </div>
@@ -112,7 +138,7 @@
                     </div>
                     <h2 class="text-base font-semibold text-gray-800 text-center mb-1">Delete User</h2>
                     <p class="text-sm text-gray-500 text-center mb-6">
-                        Are you sure you want to delete <strong class="text-gray-700">{{ deleteTarget.name }}</strong>? This cannot be undone.
+                        Are you sure you want to delete <strong class="text-gray-700">{{ deleteTarget?.name }}</strong>?
                     </p>
                     <div class="flex gap-3">
                         <button @click="deleteTarget = null"
@@ -135,11 +161,17 @@ import { ref } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 
-defineProps({
-    users: Array,
+const props = defineProps({
+    users:  Object,
+    search: String,
 })
 
+const searchQuery = ref(props.search ?? '')
 const deleteTarget = ref(null)
+
+function doSearch() {
+    router.get(route('users.index'), { search: searchQuery.value }, { preserveState: true, replace: true })
+}
 
 function confirmDelete(user) {
     deleteTarget.value = user

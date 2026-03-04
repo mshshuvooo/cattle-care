@@ -3,63 +3,79 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\SearchRequest;
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(SearchRequest $request)
     {
-        return Inertia::render('Users/Index', [
-            'users' => User::select('id', 'name', 'email', 'role', 'created_at')->latest()->get(),
+        $params = [
+            'search' => $request->search,
+        ];
+
+        $users = UserResource::collection(
+            User::search($params)->latest()->paginate()->withQueryString()
+        );
+
+        $breadcrumbs = [
+            ['label' => 'Users', 'url' => ''],
+        ];
+
+        return Inertia::render('User/Index', [
+            'search'      => $request->search,
+            'users'       => $users,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Users/Create', [
-            'roles' => array_map(fn ($r) => ['value' => $r->value, 'name' => $r->name], UserRole::cases()),
+        $breadcrumbs = [
+            ['label' => 'Users', 'url' => route('users.index')],
+            ['label' => 'Add New User', 'url' => ''],
+        ];
+
+        return Inertia::render('User/Create', [
+            'roles'       => array_map(fn ($r) => ['value' => $r->value, 'name' => $r->name], UserRole::cases()),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(StoreRequest $request)
     {
-        $validated = $request->validated();
-
-        User::create([
-            'name'     => $validated['name'],
-            'email'    => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'role'     => $validated['role'],
-        ]);
+        User::create($request->validated());
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
     public function edit(User $user)
     {
-        return Inertia::render('Users/Edit', [
-            'user'  => $user->only('id', 'name', 'email', 'role'),
-            'roles' => array_map(fn ($r) => ['value' => $r->value, 'name' => $r->name], UserRole::cases()),
+        $breadcrumbs = [
+            ['label' => 'Users', 'url' => route('users.index')],
+            ['label' => 'Edit User', 'url' => ''],
+        ];
+
+        return Inertia::render('User/Edit', [
+            'user'        => new UserResource($user),
+            'roles'       => array_map(fn ($r) => ['value' => $r->value, 'name' => $r->name], UserRole::cases()),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateRequest $request, User $user)
     {
-        $validated = $request->validated();
+        $data = $request->validated();
 
-        $user->name  = $validated['name'];
-        $user->email = $validated['email'];
-        $user->role  = $validated['role'];
-
-        if (!empty($validated['password'])) {
-            $user->password = Hash::make($validated['password']);
+        if (empty($data['password'])) {
+            unset($data['password']);
         }
 
-        $user->save();
+        $user->update($data);
 
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }

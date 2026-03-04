@@ -78,7 +78,8 @@ import { Link, useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 
 defineProps({
-    roles: Array,
+    roles:       Array,
+    breadcrumbs: Array,
 })
 
 const form = useForm({

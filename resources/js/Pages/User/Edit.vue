@@ -4,11 +4,13 @@
             <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-100 flex items-center gap-3">
                     <div class="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                        <span class="text-gray-600 text-sm font-semibold">{{ user.name.charAt(0).toUpperCase() }}</span>
+                        <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
                     </div>
                     <div>
-                        <h2 class="text-sm font-semibold text-gray-800">{{ user.name }}</h2>
-                        <p class="text-xs text-gray-400">{{ user.email }}</p>
+                        <h2 class="text-sm font-semibold text-gray-800">{{ user?.data?.name }}</h2>
+                        <p class="text-xs text-gray-400">{{ user?.data?.email }}</p>
                     </div>
                 </div>
 
@@ -86,19 +88,20 @@ import { Link, useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 
 const props = defineProps({
-    user:  Object,
-    roles: Array,
+    user:        Object,
+    roles:       Array,
+    breadcrumbs: Array,
 })
 
 const form = useForm({
-    name:                  props.user.name,
-    email:                 props.user.email,
-    role:                  props.user.role,
+    name:                  props.user.data.name,
+    email:                 props.user.data.email,
+    role:                  props.user.data.role,
     password:              '',
     password_confirmation: '',
 })
 
 function submit() {
-    form.put(route('users.update', props.user.id))
+    form.put(route('users.update', props.user.data.id))
 }
 </script>

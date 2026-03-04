@@ -42,10 +42,10 @@
         <!-- Welcome card -->
         <div class="bg-white rounded-xl border border-gray-200 p-6">
             <h2 class="text-base font-semibold text-gray-800 mb-1">
-                Welcome back, {{ $page.props.auth.user.name }} 👋
+                Welcome back, {{ $page.props.auth?.user?.name }} 👋
             </h2>
             <p class="text-sm text-gray-500">
-                You are signed in as <span class="capitalize font-medium text-gray-700">{{ $page.props.auth.user.role }}</span>.
+                You are signed in as <span class="capitalize font-medium text-gray-700">{{ $page.props.auth?.user?.role }}</span>.
                 Use the sidebar to navigate.
             </p>
         </div>

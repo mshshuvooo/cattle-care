@@ -45,17 +45,30 @@
                     </svg>
                     Users
                 </Link>
+
+                <p class="px-3 mt-5 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">Account</p>
+
+                <Link :href="route('profile.show')" @click="sidebarOpen = false"
+                    :class="isActive('/user/profile') ? 'bg-green-700 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'"
+                    class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    Profile
+                </Link>
             </nav>
 
             <!-- User profile -->
             <div class="border-t border-gray-800 p-4">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-8 h-8 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
-                        <span class="text-white text-sm font-semibold">{{ userInitial }}</span>
+                        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-white truncate">{{ $page.props.auth.user.name }}</p>
-                        <p class="text-xs text-gray-400 capitalize">{{ $page.props.auth.user.role }}</p>
+                        <p class="text-sm font-medium text-white truncate">{{ $page.props.auth?.user?.name }}</p>
+                        <p class="text-xs text-gray-400 capitalize">{{ $page.props.auth?.user?.role }}</p>
                     </div>
                 </div>
                 <button @click="logout"
@@ -86,9 +99,11 @@
                 <!-- Right: user chip (desktop) -->
                 <div class="hidden lg:flex items-center gap-2">
                     <div class="w-7 h-7 rounded-full bg-green-700 flex items-center justify-center">
-                        <span class="text-white text-xs font-semibold">{{ userInitial }}</span>
+                        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
                     </div>
-                    <span class="text-sm text-gray-600">{{ $page.props.auth.user.name }}</span>
+                    <span class="text-sm text-gray-600">{{ $page.props.auth?.user?.name }}</span>
                 </div>
             </header>
 
@@ -101,7 +116,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { Link, router, usePage } from '@inertiajs/vue3'
 
 defineProps({
@@ -111,9 +126,6 @@ defineProps({
 const page = usePage()
 const sidebarOpen = ref(false)
 
-const userInitial = computed(() =>
-    page.props.auth?.user?.name?.charAt(0).toUpperCase() ?? '?'
-)
 
 function isActive(path) {
     return page.url === path || page.url.startsWith(path + '/')
