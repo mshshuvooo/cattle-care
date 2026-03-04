@@ -1,7 +1,9 @@
 <?php
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -13,7 +15,15 @@ Route::middleware('guest')->group(function () {
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {
-    Route::get('/', fn () => Inertia::render('Home'));
+    Route::get('/', function () {
+        return Inertia::render('Home', [
+            'stats' => [
+                'totalUsers'      => User::count(),
+                'adminCount'      => User::where('role', UserRole::Admin)->count(),
+                'subscriberCount' => User::where('role', UserRole::Subscriber)->count(),
+            ],
+        ]);
+    })->name('home');
 
     Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 
