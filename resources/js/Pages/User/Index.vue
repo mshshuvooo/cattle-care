@@ -16,9 +16,7 @@
             <!-- Table header -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4 border-b border-gray-100">
                 <div class="flex-1 max-w-xs">
-                    <input v-model="searchQuery" type="text" placeholder="Search users…"
-                        class="w-full border border-gray-300 rounded-lg px-3.5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
-                        @keyup.enter="doSearch" />
+                    <Search route="users.index" :model-value="search" />
                 </div>
                 <Link v-if="$page.props.auth?.user?.role === 'admin'" :href="route('users.create')"
                     class="inline-flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-800 transition">
@@ -160,18 +158,14 @@
 import { ref } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
+import Search from '@/Components/Search/Search.vue'
 
 const props = defineProps({
     users:  Object,
     search: String,
 })
 
-const searchQuery = ref(props.search ?? '')
 const deleteTarget = ref(null)
-
-function doSearch() {
-    router.get(route('users.index'), { search: searchQuery.value }, { preserveState: true, replace: true })
-}
 
 function confirmDelete(user) {
     deleteTarget.value = user
