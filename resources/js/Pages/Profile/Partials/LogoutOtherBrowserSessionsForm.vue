@@ -4,10 +4,9 @@ import { useForm } from '@inertiajs/vue3';
 import ActionMessage from '@/Components/ActionMessage.vue';
 import ActionSection from '@/Components/ActionSection.vue';
 import DialogModal from '@/Components/DialogModal.vue';
-import InputError from '@/Components/InputError.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import FormInput from '@/Components/Form/FormInput.vue';
+import PrimaryButton from '@/Components/Button/PrimaryButton.vue';
+import SecondaryButton from '@/Components/Button/SecondaryButton.vue';
 
 defineProps({
     sessions: Array,
@@ -107,17 +106,15 @@ const closeModal = () => {
                     Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.
 
                     <div class="mt-4">
-                        <TextInput
+                        <FormInput
                             ref="passwordInput"
                             v-model="form.password"
                             type="password"
-                            class="mt-1 block w-3/4"
                             placeholder="Password"
+                            :error="form.errors.password"
                             autocomplete="current-password"
                             @keyup.enter="logoutOtherBrowserSessions"
                         />
-
-                        <InputError :message="form.errors.password" class="mt-2" />
                     </div>
                 </template>
 

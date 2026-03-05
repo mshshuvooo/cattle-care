@@ -3,12 +3,10 @@ import { ref, computed, watch } from 'vue';
 import { router, useForm, usePage } from '@inertiajs/vue3';
 import ActionSection from '@/Components/ActionSection.vue';
 import ConfirmsPassword from '@/Components/ConfirmsPassword.vue';
-import DangerButton from '@/Components/DangerButton.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import DangerButton from '@/Components/Button/DangerButton.vue';
+import FormInput from '@/Components/Form/FormInput.vue';
+import PrimaryButton from '@/Components/Button/PrimaryButton.vue';
+import SecondaryButton from '@/Components/Button/SecondaryButton.vue';
 
 const props = defineProps({
     requiresConfirmation: Boolean,
@@ -154,21 +152,16 @@ const disableTwoFactorAuthentication = () => {
                     </div>
 
                     <div v-if="confirming" class="mt-4">
-                        <InputLabel for="code" value="Code" />
-
-                        <TextInput
-                            id="code"
+                        <FormInput
                             v-model="confirmationForm.code"
+                            label="Code"
                             type="text"
-                            name="code"
-                            class="block mt-1 w-1/2"
+                            :error="confirmationForm.errors.code"
                             inputmode="numeric"
                             autofocus
                             autocomplete="one-time-code"
                             @keyup.enter="confirmTwoFactorAuthentication"
                         />
-
-                        <InputError :message="confirmationForm.errors.code" class="mt-2" />
                     </div>
                 </div>
 

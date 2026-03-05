@@ -306,6 +306,50 @@ Read from `$page.props.flash.success` in Vue.
 
 ---
 
+## Vue File Structure
+Always put `<script setup>` before `<template>` in every Vue file. Never put `<template>` first.
+
+✅ **Correct**
+```vue
+<script setup>
+// ...
+</script>
+
+<template>
+    <!-- ... -->
+</template>
+```
+
+❌ **Avoid**
+```vue
+<template>
+    <!-- ... -->
+</template>
+
+<script setup>
+// ...
+</script>
+```
+
+---
+
+## Vue Component Libraries
+**IMPORTANT:** Always use our custom components. Never use Jetstream's built-in form or button components.
+
+**Form components** — always import from `@/Components/Form/`:
+- `FormInput` — replaces `TextInput` + `InputLabel` + `InputError` (label and error are props)
+- `FormTextarea` — textarea with label and error
+- `FormSelect` — select with label and error; options as `[{ value, name }]`
+- `FormSection` — card wrapper with `#title`, `#form`, `#actions` slots; emits `submitted`
+
+**Button components** — always import from `@/Components/Button/`:
+- `PrimaryButton` (green), `SecondaryButton` (gray border), `DangerButton` (red)
+- Use `as="link" :href="..."` to render as an Inertia `<Link>`, default renders as `<button>`
+
+Never import buttons or form fields from `@/Components/` root — those Jetstream components have been deleted.
+
+---
+
 ## Vue Frontend Conventions
 Always use optional chaining (`?.`) when accessing props in Vue templates. Never access properties directly without it.
 

@@ -5,15 +5,13 @@ import ActionMessage from '@/Components/ActionMessage.vue';
 import ActionSection from '@/Components/ActionSection.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import ConfirmationModal from '@/Components/ConfirmationModal.vue';
-import DangerButton from '@/Components/DangerButton.vue';
+import DangerButton from '@/Components/Button/DangerButton.vue';
 import DialogModal from '@/Components/DialogModal.vue';
-import FormSection from '@/Components/FormSection.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
+import FormSection from '@/Components/Form/FormSection.vue';
+import FormInput from '@/Components/Form/FormInput.vue';
+import PrimaryButton from '@/Components/Button/PrimaryButton.vue';
+import SecondaryButton from '@/Components/Button/SecondaryButton.vue';
 import SectionBorder from '@/Components/SectionBorder.vue';
-import TextInput from '@/Components/TextInput.vue';
 
 const props = defineProps({
     tokens: Array,
@@ -86,21 +84,17 @@ const deleteApiToken = () => {
 
             <template #form>
                 <!-- Token Name -->
-                <div class="col-span-6 sm:col-span-4">
-                    <InputLabel for="name" value="Name" />
-                    <TextInput
-                        id="name"
-                        v-model="createApiTokenForm.name"
-                        type="text"
-                        class="mt-1 block w-full"
-                        autofocus
-                    />
-                    <InputError :message="createApiTokenForm.errors.name" class="mt-2" />
-                </div>
+                <FormInput
+                    v-model="createApiTokenForm.name"
+                    label="Name"
+                    type="text"
+                    :error="createApiTokenForm.errors.name"
+                    autofocus
+                />
 
                 <!-- Token Permissions -->
-                <div v-if="availablePermissions.length > 0" class="col-span-6">
-                    <InputLabel for="permissions" value="Permissions" />
+                <div v-if="availablePermissions.length > 0">
+                    <p class="block text-sm font-medium text-gray-700 mb-1.5">Permissions</p>
 
                     <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div v-for="permission in availablePermissions" :key="permission">

@@ -2,11 +2,10 @@
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import ActionSection from '@/Components/ActionSection.vue';
-import DangerButton from '@/Components/DangerButton.vue';
+import DangerButton from '@/Components/Button/DangerButton.vue';
 import DialogModal from '@/Components/DialogModal.vue';
-import InputError from '@/Components/InputError.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import FormInput from '@/Components/Form/FormInput.vue';
+import SecondaryButton from '@/Components/Button/SecondaryButton.vue';
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);
@@ -68,17 +67,15 @@ const closeModal = () => {
                     Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.
 
                     <div class="mt-4">
-                        <TextInput
+                        <FormInput
                             ref="passwordInput"
                             v-model="form.password"
                             type="password"
-                            class="mt-1 block w-3/4"
                             placeholder="Password"
+                            :error="form.errors.password"
                             autocomplete="current-password"
                             @keyup.enter="deleteUser"
                         />
-
-                        <InputError :message="form.errors.password" class="mt-2" />
                     </div>
                 </template>
 

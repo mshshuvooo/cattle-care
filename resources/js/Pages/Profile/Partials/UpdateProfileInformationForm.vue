@@ -2,12 +2,10 @@
 import { ref } from 'vue';
 import { Link, router, useForm } from '@inertiajs/vue3';
 import ActionMessage from '@/Components/ActionMessage.vue';
-import FormSection from '@/Components/FormSection.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import FormSection from '@/Components/Form/FormSection.vue';
+import FormInput from '@/Components/Form/FormInput.vue';
+import PrimaryButton from '@/Components/Button/PrimaryButton.vue';
+import SecondaryButton from '@/Components/Button/SecondaryButton.vue';
 
 const props = defineProps({
     user: Object,
@@ -81,14 +79,9 @@ const clearPhotoFileInput = () => {
             Profile Information
         </template>
 
-        <template #description>
-            Update your account's profile information and email address.
-        </template>
-
         <template #form>
             <!-- Profile Photo -->
-            <div v-if="$page.props.jetstream.managesProfilePhotos" class="col-span-6 sm:col-span-4">
-                <!-- Profile Photo File Input -->
+            <div v-if="$page.props.jetstream.managesProfilePhotos">
                 <input
                     id="photo"
                     ref="photoInput"
@@ -97,14 +90,10 @@ const clearPhotoFileInput = () => {
                     @change="updatePhotoPreview"
                 >
 
-                <InputLabel for="photo" value="Photo" />
-
-                <!-- Current Profile Photo -->
                 <div v-show="! photoPreview" class="mt-2">
                     <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full size-20 object-cover">
                 </div>
 
-                <!-- New Profile Photo Preview -->
                 <div v-show="photoPreview" class="mt-2">
                     <span
                         class="block rounded-full size-20 bg-cover bg-no-repeat bg-center"
@@ -125,35 +114,27 @@ const clearPhotoFileInput = () => {
                     Remove Photo
                 </SecondaryButton>
 
-                <InputError :message="form.errors.photo" class="mt-2" />
+                <p v-if="form.errors.photo" class="mt-1.5 text-xs text-red-500">{{ form.errors.photo }}</p>
             </div>
 
             <!-- Name -->
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="name" value="Name" />
-                <TextInput
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="name"
-                />
-                <InputError :message="form.errors.name" class="mt-2" />
-            </div>
+            <FormInput
+                v-model="form.name"
+                label="Name"
+                type="text"
+                :error="form.errors.name"
+                autocomplete="name"
+            />
 
             <!-- Email -->
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
+            <div>
+                <FormInput
                     v-model="form.email"
+                    label="Email"
                     type="email"
-                    class="mt-1 block w-full"
-                    required
+                    :error="form.errors.email"
                     autocomplete="username"
                 />
-                <InputError :message="form.errors.email" class="mt-2" />
 
                 <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at === null">
                     <p class="text-sm mt-2">
@@ -182,7 +163,7 @@ const clearPhotoFileInput = () => {
                 Saved.
             </ActionMessage>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <PrimaryButton :disabled="form.processing">
                 Save
             </PrimaryButton>
         </template>

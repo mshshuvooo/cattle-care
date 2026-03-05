@@ -2,11 +2,9 @@
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import ActionMessage from '@/Components/ActionMessage.vue';
-import FormSection from '@/Components/FormSection.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import FormSection from '@/Components/Form/FormSection.vue';
+import FormInput from '@/Components/Form/FormInput.vue';
+import PrimaryButton from '@/Components/Button/PrimaryButton.vue';
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
@@ -43,48 +41,32 @@ const updatePassword = () => {
             Update Password
         </template>
 
-        <template #description>
-            Ensure your account is using a long, random password to stay secure.
-        </template>
-
         <template #form>
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="current_password" value="Current Password" />
-                <TextInput
-                    id="current_password"
-                    ref="currentPasswordInput"
-                    v-model="form.current_password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="current-password"
-                />
-                <InputError :message="form.errors.current_password" class="mt-2" />
-            </div>
+            <FormInput
+                ref="currentPasswordInput"
+                v-model="form.current_password"
+                label="Current Password"
+                type="password"
+                :error="form.errors.current_password"
+                autocomplete="current-password"
+            />
 
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password" value="New Password" />
-                <TextInput
-                    id="password"
-                    ref="passwordInput"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="new-password"
-                />
-                <InputError :message="form.errors.password" class="mt-2" />
-            </div>
+            <FormInput
+                ref="passwordInput"
+                v-model="form.password"
+                label="New Password"
+                type="password"
+                :error="form.errors.password"
+                autocomplete="new-password"
+            />
 
-            <div class="col-span-6 sm:col-span-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="new-password"
-                />
-                <InputError :message="form.errors.password_confirmation" class="mt-2" />
-            </div>
+            <FormInput
+                v-model="form.password_confirmation"
+                label="Confirm Password"
+                type="password"
+                :error="form.errors.password_confirmation"
+                autocomplete="new-password"
+            />
         </template>
 
         <template #actions>
@@ -92,7 +74,7 @@ const updatePassword = () => {
                 Saved.
             </ActionMessage>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <PrimaryButton :disabled="form.processing">
                 Save
             </PrimaryButton>
         </template>
