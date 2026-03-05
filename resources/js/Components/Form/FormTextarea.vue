@@ -1,3 +1,15 @@
+<script setup>
+defineProps({
+    modelValue:  { type: String, default: '' },
+    label:       { type: String, default: '' },
+    placeholder: { type: String, default: '' },
+    rows:        { type: Number, default: 4 },
+    error:       { type: String, default: '' },
+})
+
+defineEmits(['update:modelValue'])
+</script>
+
 <template>
     <div>
         <label v-if="label" class="block text-sm font-medium text-gray-700 mb-1.5">{{ label }}</label>
@@ -11,15 +23,3 @@
         <p v-if="error" class="mt-1.5 text-xs text-red-500">{{ error }}</p>
     </div>
 </template>
-
-<script setup>
-defineProps({
-    modelValue:  { type: String, default: '' },
-    label:       { type: String, default: '' },
-    placeholder: { type: String, default: '' },
-    rows:        { type: Number, default: 4 },
-    error:       { type: String, default: '' },
-})
-
-defineEmits(['update:modelValue'])
-</script>

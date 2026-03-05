@@ -1,3 +1,24 @@
+<script setup>
+import { ref } from 'vue'
+import { Link, router, usePage } from '@inertiajs/vue3'
+
+defineProps({
+    title: { type: String, default: '' },
+})
+
+const page = usePage()
+const sidebarOpen = ref(false)
+
+
+function isActive(path) {
+    return page.url === path || page.url.startsWith(path + '/')
+}
+
+function logout() {
+    router.post(route('logout'))
+}
+</script>
+
 <template>
     <div class="min-h-screen bg-gray-100 flex">
 
@@ -114,24 +135,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import { Link, router, usePage } from '@inertiajs/vue3'
-
-defineProps({
-    title: { type: String, default: '' },
-})
-
-const page = usePage()
-const sidebarOpen = ref(false)
-
-
-function isActive(path) {
-    return page.url === path || page.url.startsWith(path + '/')
-}
-
-function logout() {
-    router.post(route('logout'))
-}
-</script>

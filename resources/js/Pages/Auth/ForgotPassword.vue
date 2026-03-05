@@ -1,3 +1,20 @@
+<script setup>
+import { Link, useForm } from '@inertiajs/vue3'
+import GuestLayout from '@/Layouts/GuestLayout.vue'
+
+defineProps({
+    status: String,
+})
+
+const form = useForm({
+    email: '',
+})
+
+function submit() {
+    form.post(route('password.email'))
+}
+</script>
+
 <template>
     <GuestLayout>
         <h2 class="text-2xl font-bold text-gray-900 mb-1">Forgot Password</h2>
@@ -35,20 +52,3 @@
         </div>
     </GuestLayout>
 </template>
-
-<script setup>
-import { Link, useForm } from '@inertiajs/vue3'
-import GuestLayout from '@/Layouts/GuestLayout.vue'
-
-defineProps({
-    status: String,
-})
-
-const form = useForm({
-    email: '',
-})
-
-function submit() {
-    form.post(route('password.email'))
-}
-</script>

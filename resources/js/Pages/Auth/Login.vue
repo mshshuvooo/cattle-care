@@ -1,3 +1,28 @@
+<script setup>
+import { Link, useForm } from '@inertiajs/vue3'
+import GuestLayout from '@/Layouts/GuestLayout.vue'
+
+defineProps({
+    canResetPassword: Boolean,
+    status: String,
+})
+
+const form = useForm({
+    email:    '',
+    password: '',
+    remember: false,
+})
+
+function submit() {
+    form.transform(data => ({
+        ...data,
+        remember: form.remember ? 'on' : '',
+    })).post(route('login'), {
+        onFinish: () => form.reset('password'),
+    })
+}
+</script>
+
 <template>
     <GuestLayout>
         <h2 class="text-2xl font-bold text-gray-900 mb-1">Sign in</h2>
@@ -53,28 +78,3 @@
         </div>
     </GuestLayout>
 </template>
-
-<script setup>
-import { Link, useForm } from '@inertiajs/vue3'
-import GuestLayout from '@/Layouts/GuestLayout.vue'
-
-defineProps({
-    canResetPassword: Boolean,
-    status: String,
-})
-
-const form = useForm({
-    email:    '',
-    password: '',
-    remember: false,
-})
-
-function submit() {
-    form.transform(data => ({
-        ...data,
-        remember: form.remember ? 'on' : '',
-    })).post(route('login'), {
-        onFinish: () => form.reset('password'),
-    })
-}
-</script>

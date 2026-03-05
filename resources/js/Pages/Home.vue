@@ -1,3 +1,14 @@
+<script setup>
+import AppLayout from '@/Layouts/AppLayout.vue'
+
+defineProps({
+    stats: {
+        type: Object,
+        default: () => ({ totalUsers: 0, adminCount: 0, subscriberCount: 0 }),
+    },
+})
+</script>
+
 <template>
     <AppLayout title="Dashboard">
         <!-- Stats -->
@@ -51,14 +62,3 @@
         </div>
     </AppLayout>
 </template>
-
-<script setup>
-import AppLayout from '@/Layouts/AppLayout.vue'
-
-defineProps({
-    stats: {
-        type: Object,
-        default: () => ({ totalUsers: 0, adminCount: 0, subscriberCount: 0 }),
-    },
-})
-</script>

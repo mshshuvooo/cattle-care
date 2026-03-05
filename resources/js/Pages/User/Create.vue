@@ -1,3 +1,30 @@
+<script setup>
+import { useForm } from '@inertiajs/vue3'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import FormSection from '@/Components/Form/FormSection.vue'
+import FormInput from '@/Components/Form/FormInput.vue'
+import FormSelect from '@/Components/Form/FormSelect.vue'
+import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
+import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
+
+defineProps({
+    roles:       Array,
+    breadcrumbs: Array,
+})
+
+const form = useForm({
+    name:                  '',
+    email:                 '',
+    role:                  '',
+    password:              '',
+    password_confirmation: '',
+})
+
+function submit() {
+    form.post(route('users.store'))
+}
+</script>
+
 <template>
     <AppLayout title="New User">
         <div class="max-w-2xl">
@@ -31,30 +58,3 @@
         </div>
     </AppLayout>
 </template>
-
-<script setup>
-import { useForm } from '@inertiajs/vue3'
-import AppLayout from '@/Layouts/AppLayout.vue'
-import FormSection from '@/Components/Form/FormSection.vue'
-import FormInput from '@/Components/Form/FormInput.vue'
-import FormSelect from '@/Components/Form/FormSelect.vue'
-import PrimaryButton from '@/Components/Button/PrimaryButton.vue'
-import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
-
-defineProps({
-    roles:       Array,
-    breadcrumbs: Array,
-})
-
-const form = useForm({
-    name:                  '',
-    email:                 '',
-    role:                  '',
-    password:              '',
-    password_confirmation: '',
-})
-
-function submit() {
-    form.post(route('users.store'))
-}
-</script>

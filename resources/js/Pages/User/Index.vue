@@ -1,3 +1,39 @@
+<script setup>
+import { ref } from 'vue'
+import { Link, router } from '@inertiajs/vue3'
+import AppLayout from '@/Layouts/AppLayout.vue'
+import Search from '@/Components/Search/Search.vue'
+
+const props = defineProps({
+    users:  Object,
+    search: String,
+})
+
+const deleteTarget = ref(null)
+
+function confirmDelete(user) {
+    deleteTarget.value = user
+}
+
+function deleteUser() {
+    router.delete(route('users.destroy', deleteTarget.value.id), {
+        onFinish: () => { deleteTarget.value = null },
+    })
+}
+
+function roleBadge(role) {
+    return {
+        admin:      'bg-purple-100 text-purple-700',
+        manager:    'bg-blue-100 text-blue-700',
+        subscriber: 'bg-green-100 text-green-700',
+    }[role] ?? 'bg-gray-100 text-gray-600'
+}
+
+function formatDate(date) {
+    return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+}
+</script>
+
 <template>
     <AppLayout title="Users">
 
@@ -153,39 +189,3 @@
         </Teleport>
     </AppLayout>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import { Link, router } from '@inertiajs/vue3'
-import AppLayout from '@/Layouts/AppLayout.vue'
-import Search from '@/Components/Search/Search.vue'
-
-const props = defineProps({
-    users:  Object,
-    search: String,
-})
-
-const deleteTarget = ref(null)
-
-function confirmDelete(user) {
-    deleteTarget.value = user
-}
-
-function deleteUser() {
-    router.delete(route('users.destroy', deleteTarget.value.id), {
-        onFinish: () => { deleteTarget.value = null },
-    })
-}
-
-function roleBadge(role) {
-    return {
-        admin:      'bg-purple-100 text-purple-700',
-        manager:    'bg-blue-100 text-blue-700',
-        subscriber: 'bg-green-100 text-green-700',
-    }[role] ?? 'bg-gray-100 text-gray-600'
-}
-
-function formatDate(date) {
-    return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-}
-</script>

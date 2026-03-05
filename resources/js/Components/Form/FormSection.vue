@@ -1,3 +1,13 @@
+<script setup>
+import { computed, useSlots } from 'vue'
+
+defineEmits(['submitted'])
+
+const slots = useSlots()
+const hasTitle   = computed(() => !!slots.title)
+const hasActions = computed(() => !!slots.actions)
+</script>
+
 <template>
     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
         <!-- Header -->
@@ -18,13 +28,3 @@
         </form>
     </div>
 </template>
-
-<script setup>
-import { computed, useSlots } from 'vue'
-
-defineEmits(['submitted'])
-
-const slots = useSlots()
-const hasTitle   = computed(() => !!slots.title)
-const hasActions = computed(() => !!slots.actions)
-</script>

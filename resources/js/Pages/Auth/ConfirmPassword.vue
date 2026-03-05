@@ -1,3 +1,21 @@
+<script setup>
+import { ref } from 'vue'
+import { useForm } from '@inertiajs/vue3'
+import GuestLayout from '@/Layouts/GuestLayout.vue'
+
+const form = useForm({ password: '' })
+const passwordInput = ref(null)
+
+function submit() {
+    form.post(route('password.confirm'), {
+        onFinish: () => {
+            form.reset()
+            passwordInput.value?.focus()
+        },
+    })
+}
+</script>
+
 <template>
     <GuestLayout>
         <h2 class="text-2xl font-bold text-gray-900 mb-1">Confirm Password</h2>
@@ -27,21 +45,3 @@
         </div>
     </GuestLayout>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import { useForm } from '@inertiajs/vue3'
-import GuestLayout from '@/Layouts/GuestLayout.vue'
-
-const form = useForm({ password: '' })
-const passwordInput = ref(null)
-
-function submit() {
-    form.post(route('password.confirm'), {
-        onFinish: () => {
-            form.reset()
-            passwordInput.value?.focus()
-        },
-    })
-}
-</script>
