@@ -1,13 +1,21 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import Search from '@/Components/Search/Search.vue'
+import DataGrid from '@/Components/Shared/DataGrid.vue'
 
 const props = defineProps({
     users:  Object,
     search: String,
 })
+
+const users = computed(() => props.users?.data || [])
+
+const columns = [
+    { key: 'user',       label: 'User',   span: 4 },
+    { key: 'role',       label: 'Role',   span: 3 },
+]
 
 const deleteTarget = ref(null)
 
@@ -28,10 +36,6 @@ function roleBadge(role) {
         subscriber: 'bg-green-100 text-green-700',
     }[role] ?? 'bg-gray-100 text-gray-600'
 }
-
-function formatDate(date) {
-    return new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-}
 </script>
 
 <template>
@@ -49,7 +53,7 @@ function formatDate(date) {
         <!-- Card -->
         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
 
-            <!-- Table header -->
+            <!-- Toolbar -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-4 border-b border-gray-100">
                 <div class="flex-1 max-w-xs">
                     <Search route="users.index" :model-value="search" />
@@ -63,92 +67,60 @@ function formatDate(date) {
                 </Link>
             </div>
 
-            <!-- Desktop table -->
-            <div class="hidden md:block overflow-x-auto">
-                <table class="w-full text-sm text-left">
-                    <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
-                        <tr>
-                            <th class="px-5 py-3">User</th>
-                            <th class="px-5 py-3">Role</th>
-                            <th class="px-5 py-3">Joined</th>
-                            <th class="px-5 py-3 text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        <tr v-for="user in users.data" :key="user.id" class="hover:bg-gray-50 transition-colors">
-                            <td class="px-5 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                                        <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium text-gray-800">{{ user?.name }}</p>
-                                        <p class="text-xs text-gray-400">{{ user?.email }}</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-5 py-4">
-                                <span :class="roleBadge(user?.role)"
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">
-                                    {{ user?.role }}
-                                </span>
-                            </td>
-                            <td class="px-5 py-4 text-gray-400 text-xs">{{ formatDate(user?.created_at) }}</td>
-                            <td class="px-5 py-4 text-right space-x-3">
-                                <Link v-if="$page.props.auth?.user?.role === 'admin'"
-                                    :href="route('users.edit', user?.id)"
-                                    class="text-blue-600 hover:text-blue-800 text-xs font-medium">
-                                    Edit
-                                </Link>
-                                <button @click="confirmDelete(user)"
-                                    class="text-red-500 hover:text-red-700 text-xs font-medium">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        <tr v-if="users.data.length === 0">
-                            <td colspan="4" class="px-5 py-12 text-center text-gray-400 text-sm">No users found.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <!-- DataGrid -->
+            <DataGrid :items="users" :columns="columns">
 
-            <!-- Mobile list -->
-            <div class="md:hidden divide-y divide-gray-100">
-                <div v-if="users.data.length === 0" class="px-5 py-12 text-center text-gray-400 text-sm">No users found.</div>
-                <div v-for="user in users.data" :key="user.id" class="px-5 py-4 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                        <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
+                <!-- User cell -->
+                <template #cell-user="{ row }">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">{{ row?.name }}</p>
+                            <p class="text-xs text-gray-400">{{ row?.email }}</p>
+                        </div>
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="font-medium text-gray-800 truncate">{{ user?.name }}</p>
-                        <p class="text-xs text-gray-400 truncate">{{ user?.email }}</p>
-                        <span :class="roleBadge(user?.role)"
-                            class="inline-flex items-center mt-1 px-2 py-0.5 rounded-full text-xs font-medium capitalize">
-                            {{ user?.role }}
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-3 flex-shrink-0">
+                </template>
+
+                <!-- Role cell -->
+                <template #cell-role="{ row }">
+                    <span :class="roleBadge(row?.role)"
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize">
+                        {{ row?.role }}
+                    </span>
+                </template>
+
+                <!-- Row actions -->
+                <template #row-actions="{ row }">
+                    <div class="flex items-center gap-3 md:justify-end">
                         <Link v-if="$page.props.auth?.user?.role === 'admin'"
-                            :href="route('users.edit', user?.id)"
-                            class="text-blue-600 text-xs font-medium">Edit</Link>
-                        <button @click="confirmDelete(user)" class="text-red-500 text-xs font-medium">Delete</button>
+                            :href="route('users.edit', row?.id)"
+                            class="text-blue-600 hover:text-blue-800 text-xs font-medium">
+                            Edit
+                        </Link>
+                        <button @click="confirmDelete(row)"
+                            class="text-red-500 hover:text-red-700 text-xs font-medium">
+                            Delete
+                        </button>
                     </div>
-                </div>
-            </div>
+                </template>
+
+                <!-- Empty -->
+                <template #empty>No users found.</template>
+
+            </DataGrid>
 
             <!-- Pagination -->
-            <div v-if="users.meta.last_page > 1"
+            <div v-if="props.users?.meta?.last_page > 1"
                 class="px-5 py-4 border-t border-gray-100 flex items-center justify-between text-sm">
                 <p class="text-gray-500 text-xs">
-                    Showing {{ users.meta.from }}–{{ users.meta.to }} of {{ users.meta.total }}
+                    Showing {{ props.users?.meta?.from }}–{{ props.users?.meta?.to }} of {{ props.users?.meta?.total }}
                 </p>
                 <div class="flex items-center gap-1">
-                    <Link v-for="link in users.meta.links" :key="link.label"
+                    <Link v-for="link in props.users?.meta?.links" :key="link.label"
                         :href="link.url ?? ''"
                         v-html="link.label"
                         :class="[
