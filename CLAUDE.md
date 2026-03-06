@@ -336,17 +336,89 @@ Always put `<script setup>` before `<template>` in every Vue file. Never put `<t
 ## Vue Component Libraries
 **IMPORTANT:** Always use our custom components. Never use Jetstream's built-in form or button components.
 
-**Form components** — always import from `@/Components/Form/`:
+**Form components** — ALWAYS import from `@/Components/Form/`. Never use any other path:
 - `FormInput` — replaces `TextInput` + `InputLabel` + `InputError` (label and error are props)
 - `FormTextarea` — textarea with label and error
 - `FormSelect` — select with label and error; options as `[{ value, name }]`
 - `FormSection` — card wrapper with `#title`, `#form`, `#actions` slots; emits `submitted`
 
-**Button components** — always import from `@/Components/Button/`:
+```js
+import FormInput   from '@/Components/Form/FormInput.vue'
+import FormSelect  from '@/Components/Form/FormSelect.vue'
+import FormSection from '@/Components/Form/FormSection.vue'
+```
+
+**Button components** — ALWAYS import from `@/Components/Button/`. Never use any other path:
 - `PrimaryButton` (green), `SecondaryButton` (gray border), `DangerButton` (red)
 - Use `as="link" :href="..."` to render as an Inertia `<Link>`, default renders as `<button>`
 
-Never import buttons or form fields from `@/Components/` root — those Jetstream components have been deleted.
+```js
+import PrimaryButton   from '@/Components/Button/PrimaryButton.vue'
+import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
+import DangerButton    from '@/Components/Button/DangerButton.vue'
+```
+
+**Search component** — ALWAYS import from `@/Components/Search/Search.vue` on any index page with a search box:
+- Props: `route` (required, named route string), `routeParam` (object), `modelValue` (current search string), `param` (query param name, default `'search'`)
+- Debounces navigation by 300ms automatically
+
+```vue
+import Search from '@/Components/Search/Search.vue'
+
+<Search route="users.index" :model-value="search" />
+```
+
+
+**DataGrid Component** - Always use `DataGrid` for any page that lists/shows records in a table. Never build a custom table or list structure.
+
+```vue
+import DataGrid from '@/Components/Shared/DataGrid.vue'
+
+// Extract items from paginated response via computed
+const items = computed(() => props.records?.data || [])
+
+// Define columns — spans must sum to less than 12 to leave room for actions
+const columns = [
+    { key: 'name',       label: 'Name',    span: 5 },
+    { key: 'status',     label: 'Status',  span: 3 },
+    { key: 'created_at', label: 'Created', span: 2, format: (v) => new Date(v).toLocaleDateString() },
+]
+```
+
+```vue
+<DataGrid :items="items" :columns="columns">
+    <!-- Use #cell-{key} only when HTML is needed (badges, avatars) -->
+    <template #cell-status="{ row }">
+        <span class="...badge classes...">{{ row?.status }}</span>
+    </template>
+
+    <!-- Row actions -->
+    <template #row-actions="{ row }">
+        <Link :href="route('records.edit', row?.id)">Edit</Link>
+        <button @click="confirmDelete(row)">Delete</button>
+    </template>
+
+    <template #empty>No records found.</template>
+</DataGrid>
+```
+
+- `format: (value, row) => string` — use for simple cell rendering (dates, numbers) without a slot
+- `actionsSpan` auto-computes from remaining columns — never set it to `0` if you have row actions
+- **Tailwind v4 requires this in `resources/css/app.css`** (already added — do not remove):
+  ```css
+  @source inline("{,md:}col-span-{1,2,3,4,5,6,7,8,9,10,11,12}");
+  ```
+
+---
+
+**The following Jetstream files have been permanently deleted — do NOT recreate them:**
+- `@/Components/TextInput.vue` → use `@/Components/Form/FormInput.vue`
+- `@/Components/InputLabel.vue` → use `@/Components/Form/FormInput.vue`
+- `@/Components/InputError.vue` → use `@/Components/Form/FormInput.vue`
+- `@/Components/FormSection.vue` → use `@/Components/Form/FormSection.vue`
+- `@/Components/PrimaryButton.vue` → use `@/Components/Button/PrimaryButton.vue`
+- `@/Components/SecondaryButton.vue` → use `@/Components/Button/SecondaryButton.vue`
+- `@/Components/DangerButton.vue` → use `@/Components/Button/DangerButton.vue`
 
 ---
 
