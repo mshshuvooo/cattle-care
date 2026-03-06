@@ -23,11 +23,11 @@ const computedActionsSpan = computed(() => {
 })
 
 const headerClass = computed(() => [
-    'hidden md:grid grid-cols-12 items-center px-5 py-3 bg-gray-50 text-xs text-gray-500 uppercase tracking-wider border-b border-gray-100',
+    'hidden md:grid grid-cols-12 items-center px-5 py-3 bg-gray-50 text-xs text-muted uppercase tracking-wider border-b border-gray-100',
     props.stickyHeader ? 'sticky top-0 z-10 bg-gray-50/80 backdrop-blur' : '',
 ])
 
-const summaryClass = 'grid grid-cols-12 items-center px-5 py-3 text-sm font-semibold text-gray-800 bg-gray-50 border-t border-gray-100'
+const summaryClass = 'grid grid-cols-12 items-center px-5 py-3 text-sm font-semibold text-navy bg-gray-50 border-t border-gray-100'
 
 const summaryStyle = computed(() => {
     if (!props.summarySticky) return undefined
@@ -65,13 +65,13 @@ const summaryStyle = computed(() => {
 
                 <div v-for="col in columns" :key="col.key"
                     :class="[`col-span-12 md:col-span-${col.span ?? 3}`, 'mt-2 md:mt-0', col.align === 'right' ? 'md:text-right' : '']">
-                    <div class="md:hidden text-[11px] uppercase tracking-wide text-gray-400 mb-0.5">
+                    <div class="md:hidden text-[11px] uppercase tracking-wide text-muted mb-0.5">
                         {{ col.mobileLabel ?? col.label }}
                     </div>
 
                     <!-- Mobile highlight pill for the designated key column -->
                     <template v-if="mobileHighlightKey && col.key === mobileHighlightKey">
-                        <span class="md:hidden inline-flex items-center rounded-full px-3 py-0.5 mb-1 text-xs font-medium bg-gray-100 text-gray-700">
+                        <span class="md:hidden inline-flex items-center rounded-full px-3 py-0.5 mb-1 text-xs font-medium bg-gray-100 text-navy">
                             {{ row?.[col.key] }}
                         </span>
                         <slot :name="`cell-${col.key}`" :row="row" :value="row?.[col.key]">
@@ -101,7 +101,7 @@ const summaryStyle = computed(() => {
         </div>
 
         <!-- Empty -->
-        <div v-if="!items?.length" class="px-5 py-12 text-center text-sm text-gray-400">
+        <div v-if="!items?.length" class="px-5 py-12 text-center text-sm text-muted">
             <slot name="empty">No records found.</slot>
         </div>
     </div>

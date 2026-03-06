@@ -13,11 +13,11 @@ defineProps({
 
 <template>
     <Link v-if="as === 'link'" :href="href" v-bind="$attrs"
-        class="cursor-pointer px-4 py-2 text-sm text-gray-600 border border-gray-300 bg-white rounded-lg hover:bg-gray-100 transition font-medium">
+        class="cursor-pointer px-4 py-2 text-sm text-navy border border-gray-300 bg-transparent rounded-lg hover:bg-gray-50 transition font-medium">
         <slot />
     </Link>
     <button v-else :type="type" :disabled="disabled" v-bind="$attrs"
-        class="cursor-pointer px-4 py-2 text-sm text-gray-600 border border-gray-300 bg-white rounded-lg hover:bg-gray-100 transition font-medium disabled:opacity-50">
+        class="cursor-pointer px-4 py-2 text-sm text-navy border border-gray-300 bg-transparent rounded-lg hover:bg-gray-50 transition font-medium disabled:opacity-50">
         <slot />
     </button>
 </template>

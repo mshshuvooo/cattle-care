@@ -1,3 +1,12 @@
 @import 'tailwindcss';
 
 @source inline("{,md:}col-span-{1,2,3,4,5,6,7,8,9,10,11,12}");
+
+@theme {
+    --color-brand:        #3c9d5b;
+    --color-brand-dark:   #338a4f;
+    --color-navy:         #06283a;
+    --color-danger:       #e7000c;
+    --color-danger-dark:  #c90009;
+    --color-muted:        #717171;
+}

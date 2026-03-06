@@ -6,8 +6,9 @@ import Search from '@/Components/Search/Search.vue'
 import DataGrid from '@/Components/Shared/DataGrid.vue'
 
 const props = defineProps({
-    users:  Object,
-    search: String,
+    users:       Object,
+    search:      String,
+    breadcrumbs: Array,
 })
 
 const users = computed(() => props.users?.data || [])

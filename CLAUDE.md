@@ -334,6 +334,55 @@ Always put `<script setup>` before `<template>` in every Vue file. Never put `<t
 
 ---
 
+## Color Schema
+
+All brand colors are defined as Tailwind v4 theme tokens in `resources/css/app.css`. Always use these tokens — never hardcode hex values or use arbitrary Tailwind values like `bg-[#3c9d5b]`.
+
+### Tokens
+
+| Token           | Hex       | Usage                                      |
+|-----------------|-----------|--------------------------------------------|
+| `brand`         | `#3c9d5b` | Primary action color — buttons, active nav, icon backgrounds |
+| `brand-dark`    | `#338a4f` | Hover state for primary brand elements     |
+| `navy`          | `#06283a` | Sidebar background, headings, secondary button text |
+| `danger`        | `#e7000c` | Destructive actions — delete buttons       |
+| `danger-dark`   | `#c90009` | Hover state for danger elements            |
+| `muted`         | `#717171` | Body/secondary text                        |
+
+### Button Colors
+
+| Button          | Background       | Text         | Hover background  | Border              |
+|-----------------|------------------|--------------|-------------------|---------------------|
+| `PrimaryButton` | `bg-brand`       | `text-white` | `hover:bg-brand-dark` | none            |
+| `SecondaryButton` | `bg-transparent` | `text-navy` | `hover:bg-gray-50` | `border-gray-300` |
+| `DangerButton`  | `bg-danger`      | `text-white` | `hover:bg-danger-dark` | none           |
+
+### Common Usage
+
+```vue
+<!-- Icon / avatar backgrounds -->
+<div class="bg-brand rounded-lg">...</div>
+
+<!-- Sidebar (AppLayout handles this automatically) -->
+<aside class="bg-navy">...</aside>
+
+<!-- Page headings -->
+<h1 class="text-navy">...</h1>
+
+<!-- Body / secondary text -->
+<p class="text-muted">...</p>
+
+<!-- Active state highlight (e.g. pagination, tabs) -->
+<span class="bg-brand text-white">...</span>
+```
+
+### Sidebar Dividers & Hover States (dark background)
+When on a dark (`bg-navy`) background, use opacity utilities instead of gray shades:
+- Borders: `border-white/10`
+- Hover backgrounds: `hover:bg-white/5`
+
+---
+
 ## Vue Component Libraries
 **IMPORTANT:** Always use our custom components. Never use Jetstream's built-in form or button components.
 

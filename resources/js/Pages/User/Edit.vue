@@ -14,15 +14,15 @@ const props = defineProps({
 })
 
 const form = useForm({
-    name:                  props.user.data.name,
-    email:                 props.user.data.email,
-    role:                  props.user.data.role,
+    name:                  props.user?.data?.name ?? '',
+    email:                 props.user?.data?.email ?? '',
+    role:                  props.user?.data?.role ?? '',
     password:              '',
     password_confirmation: '',
 })
 
 function submit() {
-    form.put(route('users.update', props.user.data.id))
+    form.put(route('users.update', props.user?.data?.id))
 }
 </script>
 
@@ -43,3 +43,29 @@ function submit() {
                         </div>
                     </div>
                 </template>
+
+                <template #form>
+                    <FormInput v-model="form.name" label="Full Name" placeholder="John Doe" :error="form.errors.name" />
+                    <FormInput v-model="form.email" label="Email Address" type="email" placeholder="email@example.com" :error="form.errors.email" />
+                    <FormSelect v-model="form.role" label="Role" placeholder="Select a role" :options="roles" :error="form.errors.role" />
+
+                    <!-- Divider -->
+                    <div class="border-t border-gray-100 pt-1">
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Change Password</p>
+                        <div class="space-y-5">
+                            <FormInput v-model="form.password" label="New Password" type="password" placeholder="Leave blank to keep current" :error="form.errors.password" />
+                            <FormInput v-model="form.password_confirmation" label="Confirm Password" type="password" placeholder="Repeat new password" />
+                        </div>
+                    </div>
+                </template>
+
+                <template #actions>
+                    <SecondaryButton as="link" :href="route('users.index')">Cancel</SecondaryButton>
+                    <PrimaryButton type="submit" :disabled="form.processing">
+                        {{ form.processing ? 'Saving…' : 'Save Changes' }}
+                    </PrimaryButton>
+                </template>
+            </FormSection>
+        </div>
+    </AppLayout>
+</template>

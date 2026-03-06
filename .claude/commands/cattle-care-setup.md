@@ -91,17 +91,17 @@ defineExpose({ focus: () => inputEl.value?.focus() })
 
 <template>
     <div>
-        <label v-if="label" class="block text-sm font-medium text-gray-700 mb-1.5">{{ label }}</label>
+        <label v-if="label" class="block text-sm font-medium text-navy mb-1.5">{{ label }}</label>
         <input
             ref="inputEl"
             :type="type"
             :value="modelValue"
             :placeholder="placeholder"
             v-bind="$attrs"
-            class="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+            class="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
             @input="$emit('update:modelValue', $event.target.value)"
         />
-        <p v-if="error" class="mt-1.5 text-xs text-red-500">{{ error }}</p>
+        <p v-if="error" class="mt-1.5 text-xs text-danger">{{ error }}</p>
     </div>
 </template>
 ```
@@ -125,15 +125,15 @@ defineEmits(['update:modelValue'])
 
 <template>
     <div>
-        <label v-if="label" class="block text-sm font-medium text-gray-700 mb-1.5">{{ label }}</label>
+        <label v-if="label" class="block text-sm font-medium text-navy mb-1.5">{{ label }}</label>
         <textarea
             :value="modelValue"
             :placeholder="placeholder"
             :rows="rows"
-            class="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent resize-none"
+            class="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent resize-none"
             @input="$emit('update:modelValue', $event.target.value)"
         />
-        <p v-if="error" class="mt-1.5 text-xs text-red-500">{{ error }}</p>
+        <p v-if="error" class="mt-1.5 text-xs text-danger">{{ error }}</p>
     </div>
 </template>
 ```
@@ -157,10 +157,10 @@ defineEmits(['update:modelValue'])
 
 <template>
     <div>
-        <label v-if="label" class="block text-sm font-medium text-gray-700 mb-1.5">{{ label }}</label>
+        <label v-if="label" class="block text-sm font-medium text-navy mb-1.5">{{ label }}</label>
         <select
             :value="modelValue"
-            class="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent bg-white"
+            class="w-full border border-gray-300 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent bg-white"
             @change="$emit('update:modelValue', $event.target.value)"
         >
             <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
@@ -168,7 +168,7 @@ defineEmits(['update:modelValue'])
                 {{ option.name }}
             </option>
         </select>
-        <p v-if="error" class="mt-1.5 text-xs text-red-500">{{ error }}</p>
+        <p v-if="error" class="mt-1.5 text-xs text-danger">{{ error }}</p>
     </div>
 </template>
 ```
@@ -236,11 +236,11 @@ defineProps({
 
 <template>
     <Link v-if="as === 'link'" :href="href" v-bind="$attrs"
-        class="cursor-pointer px-4 py-2 text-sm text-white bg-green-700 rounded-lg hover:bg-green-800 transition font-medium">
+        class="cursor-pointer px-4 py-2 text-sm text-white bg-brand rounded-lg hover:bg-brand-dark transition font-medium">
         <slot />
     </Link>
     <button v-else :type="type" :disabled="disabled" v-bind="$attrs"
-        class="cursor-pointer px-4 py-2 text-sm text-white bg-green-700 rounded-lg hover:bg-green-800 transition font-medium disabled:opacity-50">
+        class="cursor-pointer px-4 py-2 text-sm text-white bg-brand rounded-lg hover:bg-brand-dark transition font-medium disabled:opacity-50">
         <slot />
     </button>
 </template>
@@ -266,11 +266,11 @@ defineProps({
 
 <template>
     <Link v-if="as === 'link'" :href="href" v-bind="$attrs"
-        class="cursor-pointer px-4 py-2 text-sm text-gray-600 border border-gray-300 bg-white rounded-lg hover:bg-gray-100 transition font-medium">
+        class="cursor-pointer px-4 py-2 text-sm text-navy border border-gray-300 bg-transparent rounded-lg hover:bg-gray-50 transition font-medium">
         <slot />
     </Link>
     <button v-else :type="type" :disabled="disabled" v-bind="$attrs"
-        class="cursor-pointer px-4 py-2 text-sm text-gray-600 border border-gray-300 bg-white rounded-lg hover:bg-gray-100 transition font-medium disabled:opacity-50">
+        class="cursor-pointer px-4 py-2 text-sm text-navy border border-gray-300 bg-transparent rounded-lg hover:bg-gray-50 transition font-medium disabled:opacity-50">
         <slot />
     </button>
 </template>
@@ -296,11 +296,11 @@ defineProps({
 
 <template>
     <Link v-if="as === 'link'" :href="href" v-bind="$attrs"
-        class="cursor-pointer px-4 py-2 text-sm text-white bg-red-600 rounded-lg hover:bg-red-700 transition font-medium">
+        class="cursor-pointer px-4 py-2 text-sm text-white bg-danger rounded-lg hover:bg-danger-dark transition font-medium">
         <slot />
     </Link>
     <button v-else :type="type" :disabled="disabled" v-bind="$attrs"
-        class="cursor-pointer px-4 py-2 text-sm text-white bg-red-600 rounded-lg hover:bg-red-700 transition font-medium disabled:opacity-50">
+        class="cursor-pointer px-4 py-2 text-sm text-white bg-danger rounded-lg hover:bg-danger-dark transition font-medium disabled:opacity-50">
         <slot />
     </button>
 </template>
@@ -403,11 +403,11 @@ const computedActionsSpan = computed(() => {
 })
 
 const headerClass = computed(() => [
-    'hidden md:grid grid-cols-12 items-center px-5 py-3 bg-gray-50 text-xs text-gray-500 uppercase tracking-wider border-b border-gray-100',
+    'hidden md:grid grid-cols-12 items-center px-5 py-3 bg-gray-50 text-xs text-muted uppercase tracking-wider border-b border-gray-100',
     props.stickyHeader ? 'sticky top-0 z-10 bg-gray-50/80 backdrop-blur' : '',
 ])
 
-const summaryClass = 'grid grid-cols-12 items-center px-5 py-3 text-sm font-semibold text-gray-800 bg-gray-50 border-t border-gray-100'
+const summaryClass = 'grid grid-cols-12 items-center px-5 py-3 text-sm font-semibold text-navy bg-gray-50 border-t border-gray-100'
 
 const summaryStyle = computed(() => {
     if (!props.summarySticky) return undefined
@@ -445,13 +445,13 @@ const summaryStyle = computed(() => {
 
                 <div v-for="col in columns" :key="col.key"
                     :class="[`col-span-12 md:col-span-${col.span ?? 3}`, 'mt-2 md:mt-0', col.align === 'right' ? 'md:text-right' : '']">
-                    <div class="md:hidden text-[11px] uppercase tracking-wide text-gray-400 mb-0.5">
+                    <div class="md:hidden text-[11px] uppercase tracking-wide text-muted mb-0.5">
                         {{ col.mobileLabel ?? col.label }}
                     </div>
 
                     <!-- Mobile highlight pill for the designated key column -->
                     <template v-if="mobileHighlightKey && col.key === mobileHighlightKey">
-                        <span class="md:hidden inline-flex items-center rounded-full px-3 py-0.5 mb-1 text-xs font-medium bg-gray-100 text-gray-700">
+                        <span class="md:hidden inline-flex items-center rounded-full px-3 py-0.5 mb-1 text-xs font-medium bg-gray-100 text-navy">
                             {{ row?.[col.key] }}
                         </span>
                         <slot :name="`cell-${col.key}`" :row="row" :value="row?.[col.key]">
@@ -481,7 +481,7 @@ const summaryStyle = computed(() => {
         </div>
 
         <!-- Empty -->
-        <div v-if="!items?.length" class="px-5 py-12 text-center text-sm text-gray-400">
+        <div v-if="!items?.length" class="px-5 py-12 text-center text-sm text-muted">
             <slot name="empty">No records found.</slot>
         </div>
     </div>
