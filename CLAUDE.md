@@ -184,7 +184,7 @@ class UserController extends Controller
 ### Naming Convention
 | Controller     | Handles                  |
 |----------------|--------------------------|
-| `UserController` | index, create, store, edit, update, destroy |
+| `UserController` | index, create, store, show, edit, update, destroy |
 
 
 
@@ -292,6 +292,7 @@ Form Requests live in `app/Http/Requests/ModelName/` folder:
 | index   | `User/Index.vue`   |
 | create  | `User/Create.vue`  |
 | edit    | `User/Edit.vue`    |
+| show    | `User/Show.vue`    |
 
 ---
 
