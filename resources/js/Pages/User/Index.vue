@@ -20,17 +20,17 @@ const columns = [
 
 const deleteTarget = ref(null)
 
-function confirmDelete(user) {
+const confirmDelete = (user) => {
     deleteTarget.value = user
 }
 
-function deleteUser() {
+const deleteUser = () => {
     router.delete(route('users.destroy', deleteTarget.value.id), {
         onFinish: () => { deleteTarget.value = null },
     })
 }
 
-function roleBadge(role) {
+const roleBadge = (role) => {
     return {
         admin:      'bg-purple-100 text-purple-700',
         manager:    'bg-blue-100 text-blue-700',

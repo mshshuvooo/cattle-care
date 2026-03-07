@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Cow;
 
+use App\Enums\Breed;
 use App\Enums\CowGender;
 use App\Enums\CowStatus;
 use Illuminate\Foundation\Http\FormRequest;
@@ -22,6 +23,8 @@ class StoreRequest extends FormRequest
             'date_of_birth'       => ['nullable', 'date'],
             'gender'              => ['required', Rule::enum(CowGender::class)],
             'status'              => ['required', Rule::enum(CowStatus::class)],
+            'breed'               => ['required', Rule::enum(Breed::class)],
+            'breed_percentage'    => ['nullable', 'numeric', 'min:0', 'max:100'],
             'previous_owner_info' => ['nullable', 'string'],
             'purchase_price'      => ['nullable', 'numeric', 'min:0', 'required_with:previous_owner_info'],
             'purchase_date'       => ['nullable', 'date', 'required_with:previous_owner_info'],

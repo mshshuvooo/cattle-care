@@ -12,6 +12,7 @@ import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
 const props = defineProps({
     breadcrumbs: Array,
     cow:         Object,
+    breeds:      Array,
     females:     Array,
     males:       Array,
     aiSires:     Array,
@@ -29,20 +30,22 @@ const statusOptions = [
 ]
 
 // Initialise toggle from existing cow data
-const fatherType = ref(props.cow?.ai_sire_id ? 'ai_sire' : 'bull')
+const fatherType = ref(props.cow?.data?.ai_sire_id ? 'ai_sire' : 'bull')
 
 const form = useForm({
-    cow_id:              props.cow?.cow_id ?? '',
-    name:                props.cow?.name ?? '',
-    date_of_birth:       props.cow?.date_of_birth ?? '',
-    gender:              props.cow?.gender ?? '',
-    status:              props.cow?.status ?? 'active',
-    previous_owner_info: props.cow?.previous_owner_info ?? '',
-    purchase_price:      props.cow?.purchase_price ?? '',
-    purchase_date:       props.cow?.purchase_date ?? '',
-    mother_id:           props.cow?.mother_id ?? '',
-    father_id:           props.cow?.father_id ?? '',
-    ai_sire_id:          props.cow?.ai_sire_id ?? '',
+    cow_id:              props.cow?.data?.cow_id ?? '',
+    name:                props.cow?.data?.name ?? '',
+    date_of_birth:       props.cow?.data?.date_of_birth ?? '',
+    gender:              props.cow?.data?.gender ?? '',
+    status:              props.cow?.data?.status ?? 'active',
+    breed:               props.cow?.data?.breed ?? '',
+    breed_percentage:    props.cow?.data?.breed_percentage ?? '',
+    previous_owner_info: props.cow?.data?.previous_owner_info ?? '',
+    purchase_price:      props.cow?.data?.purchase_price ?? '',
+    purchase_date:       props.cow?.data?.purchase_date ?? '',
+    mother_id:           props.cow?.data?.mother_id ?? '',
+    father_id:           props.cow?.data?.father_id ?? '',
+    ai_sire_id:          props.cow?.data?.ai_sire_id ?? '',
 })
 
 // Clear the opposite field when switching father type
@@ -69,8 +72,8 @@ const aiSireOptions = computed(() => [
     ...props.aiSires,
 ])
 
-function submit() {
-    form.put(route('cows.update', props.cow?.id))
+const submit = () => {
+    form.put(route('cows.update', props.cow?.data?.id))
 }
 </script>
 
@@ -115,6 +118,20 @@ function submit() {
                         label="Status *"
                         :options="statusOptions"
                         :error="form.errors.status"
+                    />
+                    <FormSelect
+                        v-model="form.breed"
+                        label="Breed *"
+                        placeholder="Select breed"
+                        :options="props.breeds"
+                        :error="form.errors.breed"
+                    />
+                    <FormInput
+                        v-model="form.breed_percentage"
+                        label="Breed Percentage"
+                        type="number"
+                        placeholder="e.g. 75"
+                        :error="form.errors.breed_percentage"
                     />
                 </div>
 

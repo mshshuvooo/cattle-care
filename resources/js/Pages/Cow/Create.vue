@@ -11,6 +11,7 @@ import SecondaryButton from '@/Components/Button/SecondaryButton.vue'
 
 const props = defineProps({
     breadcrumbs: Array,
+    breeds:      Array,
     females:     Array,
     males:       Array,
     aiSires:     Array,
@@ -36,6 +37,8 @@ const form = useForm({
     date_of_birth:       '',
     gender:              '',
     status:              'active',
+    breed:               '',
+    breed_percentage:    '',
     previous_owner_info: '',
     purchase_price:      '',
     purchase_date:       '',
@@ -68,7 +71,7 @@ const aiSireOptions = computed(() => [
     ...props.aiSires,
 ])
 
-function submit() {
+const submit = () => {
     form.post(route('cows.store'))
 }
 </script>
@@ -114,6 +117,20 @@ function submit() {
                         label="Status *"
                         :options="statusOptions"
                         :error="form.errors.status"
+                    />
+                    <FormSelect
+                        v-model="form.breed"
+                        label="Breed *"
+                        placeholder="Select breed"
+                        :options="props.breeds"
+                        :error="form.errors.breed"
+                    />
+                    <FormInput
+                        v-model="form.breed_percentage"
+                        label="Breed Percentage"
+                        type="number"
+                        placeholder="e.g. 75"
+                        :error="form.errors.breed_percentage"
                     />
                 </div>
 

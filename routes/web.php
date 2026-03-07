@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\UserRole;
+use App\Http\Controllers\AiSireController;
 use App\Http\Controllers\CowController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
@@ -29,4 +30,6 @@ Route::middleware([
         ->middleware('admin');
 
     Route::resource('cows', CowController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+
+    Route::resource('ai-sires', AiSireController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 });

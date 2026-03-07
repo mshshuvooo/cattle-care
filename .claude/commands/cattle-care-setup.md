@@ -510,7 +510,44 @@ const summaryStyle = computed(() => {
 
 ---
 
-## Step 2: Confirm and Proceed
+## Step 2: Vue Coding Conventions (always enforce)
+
+These rules apply to **every** Vue file you write or edit in this project:
+
+### Arrow Functions
+Always use arrow functions. Never use the `function` keyword in Vue `<script setup>`.
+
+✅ Correct
+```js
+const submit = () => { form.post(route('users.store')) }
+const confirmDelete = (row) => { deleteTarget.value = row }
+const roleBadge = (role) => ({ admin: 'bg-purple-100' }[role] ?? '')
+```
+
+❌ Avoid
+```js
+function submit() { ... }
+function confirmDelete(row) { ... }
+```
+
+### Single Resource `data` Wrapper
+On edit/show pages, single API Resources are wrapped in a `data` key. Always use `props.model?.data?.field`:
+
+```js
+const form = useForm({
+    name: props.user?.data?.name ?? '',
+})
+function submit() {
+    form.put(route('users.update', props.user?.data?.id))
+}
+```
+
+### Optional Chaining
+Always use `?.` when accessing props or nested values in templates and scripts.
+
+---
+
+## Step 3: Confirm and Proceed
 
 After the check:
 - If files were created → silently note it and proceed with the task

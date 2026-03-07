@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Enums\CowGender;
 use App\Http\Requests\Cow\StoreRequest;
-use App\Models\AiSire;
 use App\Http\Requests\Cow\UpdateRequest;
 use App\Http\Requests\SearchRequest;
 use App\Http\Resources\CowResource;
 use App\Models\Cow;
+use App\Support\Options;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -44,9 +44,10 @@ class CowController extends Controller
 
         return Inertia::render('Cow/Create', [
             'breadcrumbs' => $breadcrumbs,
-            'females'     => $this->cowOptions(CowGender::Female),
-            'males'       => $this->cowOptions(CowGender::Male),
-            'aiSires'     => $this->aiSireOptions(),
+            'breeds'      => Options::breeds(),
+            'females'     => Options::cows(CowGender::Female),
+            'males'       => Options::cows(CowGender::Male),
+            'aiSires'     => Options::aiSires(),
         ]);
     }
 
@@ -67,9 +68,10 @@ class CowController extends Controller
         return Inertia::render('Cow/Edit', [
             'breadcrumbs' => $breadcrumbs,
             'cow'         => new CowResource($cow),
-            'females'     => $this->cowOptions(CowGender::Female, $cow->id),
-            'males'       => $this->cowOptions(CowGender::Male, $cow->id),
-            'aiSires'     => $this->aiSireOptions(),
+            'breeds'      => Options::breeds(),
+            'females'     => Options::cows(CowGender::Female, $cow->id),
+            'males'       => Options::cows(CowGender::Male, $cow->id),
+            'aiSires'     => Options::aiSires(),
         ]);
     }
 
@@ -85,23 +87,5 @@ class CowController extends Controller
         $cow->delete();
 
         return redirect()->route('cows.index')->with('success', 'Cow deleted successfully.');
-    }
-
-    private function aiSireOptions(): array
-    {
-        return AiSire::orderBy('bull_id')
-            ->get()
-            ->map(fn($s) => ['value' => $s->id, 'name' => $s->bull_id . ($s->name ? ' — ' . $s->name : '')])
-            ->toArray();
-    }
-
-    private function cowOptions(CowGender $gender, ?int $excludeId = null): array
-    {
-        return Cow::where('gender', $gender->value)
-            ->when($excludeId, fn($q) => $q->where('id', '!=', $excludeId))
-            ->orderBy('cow_id')
-            ->get()
-            ->map(fn($c) => ['value' => $c->id, 'name' => $c->cow_id . ($c->name ? ' — ' . $c->name : '')])
-            ->toArray();
     }
 }

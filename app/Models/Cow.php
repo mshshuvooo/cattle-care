@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Breed;
 use App\Enums\CowGender;
 use App\Enums\CowStatus;
 use App\Traits\Searchable;
@@ -24,7 +25,9 @@ class Cow extends Model
     protected function casts(): array
     {
         return [
-            'gender'         => CowGender::class,
+            'breed'            => Breed::class,
+            'breed_percentage' => 'decimal:2',
+            'gender'           => CowGender::class,
             'status'         => CowStatus::class,
             'date_of_birth'  => 'date',
             'purchase_date'  => 'date',

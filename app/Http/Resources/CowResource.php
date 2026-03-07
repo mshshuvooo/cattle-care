@@ -19,6 +19,8 @@ class CowResource extends JsonResource
             'cow_id'              => $this->cow_id,
             'name'                => $this->name,
             'date_of_birth'       => $this->date_of_birth?->toDateString(),
+            'breed'               => $this->breed?->value,
+            'breed_percentage'    => $this->breed_percentage,
             'gender'              => $this->gender?->value,
             'status'              => $this->status?->value,
             'previous_owner_info' => $this->previous_owner_info,

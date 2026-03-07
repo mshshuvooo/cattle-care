@@ -21,7 +21,7 @@ const form = useForm({
     password_confirmation: '',
 })
 
-function submit() {
+const submit = () => {
     form.put(route('users.update', props.user?.data?.id))
 }
 </script>

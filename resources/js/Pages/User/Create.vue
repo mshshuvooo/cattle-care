@@ -20,7 +20,7 @@ const form = useForm({
     password_confirmation: '',
 })
 
-function submit() {
+const submit = () => {
     form.post(route('users.store'))
 }
 </script>

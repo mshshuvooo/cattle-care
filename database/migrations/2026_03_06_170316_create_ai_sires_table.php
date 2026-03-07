@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Breed;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('bull_id')->unique();
             $table->string('name')->nullable();
-            $table->string('breed')->nullable();
+            $table->enum('breed', array_column(Breed::cases(), 'value'));
+            $table->decimal('breed_percentage', 5, 2)->nullable();
             $table->string('owner')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::table('cows', function (Blueprint $table) {
             $table->foreignId('ai_sire_id')->nullable()->after('father_id')->constrained('ai_sires')->nullOnDelete();
-            $table->dropColumn('sire_name');
         });
     }
 
@@ -22,7 +21,6 @@ return new class extends Migration
         Schema::table('cows', function (Blueprint $table) {
             $table->dropForeign(['ai_sire_id']);
             $table->dropColumn('ai_sire_id');
-            $table->string('sire_name')->nullable()->after('father_id');
         });
     }
 };

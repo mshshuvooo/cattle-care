@@ -473,6 +473,29 @@ const columns = [
 ---
 
 ## Vue Frontend Conventions
+
+### Arrow Functions
+Always use arrow functions in Vue files. Never use the `function` keyword.
+
+✅ **Correct**
+```js
+const submit = () => {
+    form.post(route('users.store'))
+}
+
+const items = computed(() => props.records?.data || [])
+```
+
+❌ **Avoid**
+```js
+function submit() {
+    form.post(route('users.store'))
+}
+```
+
+---
+
+### Optional Chaining
 Always use optional chaining (`?.`) when accessing props in Vue templates. Never access properties directly without it.
 
 ✅ **Correct**
@@ -486,6 +509,30 @@ Always use optional chaining (`?.`) when accessing props in Vue templates. Never
 {{ user.name }}
 {{ user.email }}
 ```
+
+---
+
+## API Resource — Single Resource `data` Wrapper
+
+Laravel's `JsonResource` always wraps a **single resource** in a `data` key. On edit pages, always access props via `props.model?.data?.field`.
+
+```js
+// Controller passes: new UserResource($user)
+// Vue receives:      { data: { id: 1, name: '...', ... } }
+
+const form = useForm({
+    name:  props.user?.data?.name ?? '',
+    email: props.user?.data?.email ?? '',
+})
+
+const submit = () => {
+    form.put(route('users.update', props.user?.data?.id))
+}
+```
+
+- **Collections** (index pages) use `props.records?.data` — the `data` key holds the array of items
+- **Single resources** (edit/show pages) use `props.record?.data?.field` — `data` wraps the single object
+- Never access `props.record?.field` directly on an edit page
 
 ---
 
