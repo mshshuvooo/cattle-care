@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
+import { CheckCircle2, Plus, AlertTriangle, User } from 'lucide-vue-next'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import Search from '@/Components/Search/Search.vue'
 import DataGrid from '@/Components/Shared/DataGrid.vue'
@@ -45,9 +46,7 @@ const roleBadge = (role) => {
         <!-- Flash -->
         <div v-if="$page.props.flash?.success"
             class="mb-6 flex items-center gap-3 px-4 py-3 bg-green-50 border border-green-200 text-green-800 rounded-xl text-sm">
-            <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-            </svg>
+            <CheckCircle2 class="w-4 h-4 flex-shrink-0" />
             {{ $page.props.flash?.success }}
         </div>
 
@@ -61,9 +60,7 @@ const roleBadge = (role) => {
                 </div>
                 <Link v-if="$page.props.auth?.user?.role === 'admin'" :href="route('users.create')"
                     class="inline-flex items-center gap-2 bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-800 transition">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
-                    </svg>
+                    <Plus class="w-4 h-4" />
                     New User
                 </Link>
             </div>
@@ -75,9 +72,7 @@ const roleBadge = (role) => {
                 <template #cell-user="{ row }">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
+                            <User class="w-4 h-4 text-gray-500" />
                         </div>
                         <div>
                             <p class="font-medium text-gray-800">{{ row?.name }}</p>
@@ -139,9 +134,7 @@ const roleBadge = (role) => {
                 class="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50 p-4">
                 <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
                     <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
+                        <AlertTriangle class="w-6 h-6 text-red-600" />
                     </div>
                     <h2 class="text-base font-semibold text-gray-800 text-center mb-1">Delete User</h2>
                     <p class="text-sm text-gray-500 text-center mb-6">

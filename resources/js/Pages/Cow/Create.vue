@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useForm } from '@inertiajs/vue3'
+import { Beef, Dna } from 'lucide-vue-next'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import FormSection from '@/Components/Form/FormSection.vue'
 import FormInput from '@/Components/Form/FormInput.vue'
@@ -157,7 +158,7 @@ const submit = () => {
                                             ? 'bg-sky-500 text-white border-sky-500'
                                             : 'bg-white text-gray-500 border-gray-200 hover:border-sky-300 hover:text-sky-600'"
                                         class="px-2.5 py-2.5 rounded-lg border text-xs font-medium transition whitespace-nowrap">
-                                        🐂 Bull
+                                        <Beef class="w-3.5 h-3.5" /> Bull
                                     </button>
                                     <button type="button"
                                         @click="fatherType = 'ai_sire'"
@@ -165,7 +166,7 @@ const submit = () => {
                                             ? 'bg-emerald-500 text-white border-emerald-500'
                                             : 'bg-white text-gray-500 border-gray-200 hover:border-emerald-300 hover:text-emerald-600'"
                                         class="px-2.5 py-2.5 rounded-lg border text-xs font-medium transition whitespace-nowrap">
-                                        🧬 AI Sire
+                                        <Dna class="w-3.5 h-3.5" /> AI Sire
                                     </button>
                                 </div>
                                 <!-- Select (big col) -->

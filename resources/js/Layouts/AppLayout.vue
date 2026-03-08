@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { Link, router, usePage } from '@inertiajs/vue3'
+import { Home, LayoutDashboard, Users, Beef, Dna, User, LogOut, Menu } from 'lucide-vue-next'
 
 defineProps({
     title: { type: String, default: '' },
@@ -8,7 +9,6 @@ defineProps({
 
 const page = usePage()
 const sidebarOpen = ref(false)
-
 
 const isActive = (path) => {
     return page.url === path || page.url.startsWith(path + '/')
@@ -36,9 +36,7 @@ const logout = () => {
             <!-- Logo -->
             <div class="flex items-center gap-3 px-6 py-5 border-b border-white/10">
                 <div class="w-8 h-8 bg-brand rounded-lg flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
+                    <Home class="w-5 h-5 text-white" />
                 </div>
                 <span class="text-white font-bold text-lg">Cattle Care</span>
             </div>
@@ -50,9 +48,7 @@ const logout = () => {
                 <Link :href="route('home')" @click="sidebarOpen = false"
                     :class="isActive('/') ? 'bg-brand text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white'"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
+                    <LayoutDashboard class="w-5 h-5 flex-shrink-0" />
                     Dashboard
                 </Link>
 
@@ -61,27 +57,21 @@ const logout = () => {
                 <Link :href="route('users.index')" @click="sidebarOpen = false"
                     :class="isActive('/users') ? 'bg-brand text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white'"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
+                    <Users class="w-5 h-5 flex-shrink-0" />
                     Users
                 </Link>
 
                 <Link :href="route('cows.index')" @click="sidebarOpen = false"
                     :class="isActive('/cows') ? 'bg-brand text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white'"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4m0 0h18" />
-                    </svg>
+                    <Beef class="w-5 h-5 flex-shrink-0" />
                     Cows
                 </Link>
 
                 <Link :href="route('ai-sires.index')" @click="sidebarOpen = false"
                     :class="isActive('/ai-sires') ? 'bg-brand text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white'"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                    </svg>
+                    <Dna class="w-5 h-5 flex-shrink-0" />
                     AI Sires
                 </Link>
 
@@ -90,9 +80,7 @@ const logout = () => {
                 <Link :href="route('profile.show')" @click="sidebarOpen = false"
                     :class="isActive('/user/profile') ? 'bg-brand text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white'"
                     class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors">
-                    <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
+                    <User class="w-5 h-5 flex-shrink-0" />
                     Profile
                 </Link>
             </nav>
@@ -101,9 +89,7 @@ const logout = () => {
             <div class="border-t border-white/10 p-4">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-8 h-8 rounded-full bg-brand flex items-center justify-center flex-shrink-0">
-                        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
+                        <User class="w-4 h-4 text-white" />
                     </div>
                     <div class="flex-1 min-w-0">
                         <p class="text-sm font-medium text-white truncate">{{ $page.props.auth?.user?.name }}</p>
@@ -112,9 +98,7 @@ const logout = () => {
                 </div>
                 <button @click="logout"
                     class="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-400 hover:bg-white/5 hover:text-white rounded-lg transition-colors">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
+                    <LogOut class="w-4 h-4" />
                     Sign Out
                 </button>
             </div>
@@ -127,9 +111,7 @@ const logout = () => {
             <header class="bg-white border-b border-gray-200 px-4 lg:px-6 h-16 flex items-center gap-4 sticky top-0 z-10">
                 <!-- Hamburger (mobile only) -->
                 <button class="lg:hidden text-gray-500 hover:text-gray-700" @click="sidebarOpen = true">
-                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                    <Menu class="w-6 h-6" />
                 </button>
 
                 <!-- Page title -->
@@ -138,9 +120,7 @@ const logout = () => {
                 <!-- Right: user chip (desktop) -->
                 <div class="hidden lg:flex items-center gap-2">
                     <div class="w-7 h-7 rounded-full bg-brand flex items-center justify-center">
-                        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
+                        <User class="w-4 h-4 text-white" />
                     </div>
                     <span class="text-sm text-gray-600">{{ $page.props.auth?.user?.name }}</span>
                 </div>

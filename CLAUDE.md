@@ -472,6 +472,28 @@ const columns = [
 
 ---
 
+## Icons
+Always use **Lucide Vue Next** for all icons. Never use emoji, inline SVGs, or any other icon library.
+
+- Package: `lucide-vue-next` (already installed)
+- Icon browser: https://lucide.dev/icons/
+
+### Usage
+
+```vue
+import { PlusIcon, PencilIcon, Trash2Icon } from 'lucide-vue-next'
+
+<PlusIcon class="w-4 h-4" />
+<PencilIcon class="w-4 h-4 text-brand" />
+<Trash2Icon class="w-4 h-4 text-danger" />
+```
+
+- Always import only the specific icons you use (tree-shakeable)
+- Standard size is `w-4 h-4` for inline/button icons; `w-5 h-5` for standalone/prominent icons
+- Use Tailwind color classes to tint icons (`text-brand`, `text-danger`, `text-muted`, etc.)
+
+---
+
 ## Vue Frontend Conventions
 
 ### Arrow Functions

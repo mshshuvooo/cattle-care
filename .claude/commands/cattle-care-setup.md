@@ -510,7 +510,17 @@ const summaryStyle = computed(() => {
 
 ---
 
-## Step 2: Vue Coding Conventions (always enforce)
+## Step 2: Install Required Packages (if missing)
+
+Check if `lucide-vue-next` is in `package.json`. If missing, run:
+
+```bash
+npm install lucide-vue-next
+```
+
+---
+
+## Step 3: Vue Coding Conventions (always enforce)
 
 These rules apply to **every** Vue file you write or edit in this project:
 
@@ -547,7 +557,7 @@ Always use `?.` when accessing props or nested values in templates and scripts.
 
 ---
 
-## Step 3: Confirm and Proceed
+## Step 4: Confirm and Proceed
 
 After the check:
 - If files were created → silently note it and proceed with the task
